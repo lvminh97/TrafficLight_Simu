@@ -1,0 +1,77 @@
+ORG 0000H
+MAIN:
+	SETB P1.0	; Den pha re xanh 1,2
+	CLR  P1.1	; Den pha re do 3
+	CLR  P1.2	; Den pha re xanh 3
+	CLR  P1.3	; Den xanh 1
+	CLR  P1.4	; Den xanh 2
+	CLR  P1.5	; Den vang 1
+	CLR  P1.6	; Den vang 2
+	CLR  P1.7	; Den do 1
+	CLR  P2.0	; Den do 2
+LOOP:
+	ACALL STATE1
+	ACALL STATE2
+	ACALL STATE3
+	ACALL STATE2
+    SJMP MAIN
+STATE1:
+	; D1
+	SETB P1.3
+	CLR  P1.5
+	CLR  P1.7
+	; D2
+	CLR  P1.4
+	CLR  P1.6
+	SETB P2.0
+	; D3
+	CLR  P1.1
+	SETB P1.2
+	MOV R4, #30
+	ACALL DELAY
+	RET
+STATE2:
+	; D1
+	CLR  P1.3
+	SETB P1.5
+	CLR  P1.7
+	; D2
+	CLR  P1.4
+	SETB P1.6
+	CLR  P2.0
+	; D3
+	SETB P1.1
+	CLR  P1.2
+	MOV R4, #3
+	ACALL DELAY
+	RET
+STATE3:
+	; D1
+	CLR  P1.3
+	CLR  P1.5
+	SETB P1.7
+	; D2
+	SETB P1.4
+	CLR  P1.6
+	CLR  P2.0
+	; D3
+	SETB P1.1
+	CLR  P1.2
+	MOV R4, #30
+	ACALL DELAY
+	RET
+DELAY:
+	;MOV R4, #1
+	LOOP1:
+		MOV R3, #10
+	LOOP2:
+		MOV R2, #250
+	LOOP3:
+		MOV R1, #200
+	LOOP4:
+		DJNZ R1, LOOP4
+		DJNZ R2, LOOP3
+		DJNZ R3, LOOP2
+		DJNZ R4, LOOP1
+		RET
+END
