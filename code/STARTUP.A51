@@ -7,6 +7,7 @@ TIMER0_ISR:
 	PUSH PSW
 	
 	MOV A, R4
+	ADD A, #-1
 	MOV B, #10
 	DIV AB
 	MOV DPTR, #LED7
@@ -26,6 +27,8 @@ DIG2:
 	SETB P2.2
 	MOV R5, #0
 TIMER0_ISR_RET:
+	MOV  TH0,  #08AH
+	MOV  TL0,  #0D0H
 	POP PSW
 	POP ACC
 	RETI
@@ -42,8 +45,8 @@ MAIN:
 	CLR  P2.0	; Den do 2
 	; Enable Timer0 interrupt
 	MOV  TMOD, #01H
-	MOV  TH0,  #0FCH
-	MOV  TL0,  #66H
+	MOV  TH0,  #08AH
+	MOV  TL0,  #0D0H
 	SETB TR0
 	MOV  R5, #0
 	SETB EA
@@ -66,7 +69,7 @@ STATE1:
 	; D3
 	CLR  P1.1
 	SETB P1.2
-	MOV R4, #30
+	MOV R4, #31
 	ACALL DELAY
 	RET
 STATE2:
@@ -81,7 +84,7 @@ STATE2:
 	; D3
 	SETB P1.1
 	CLR  P1.2
-	MOV R4, #3
+	MOV R4, #4
 	ACALL DELAY
 	RET
 STATE3:
@@ -96,7 +99,7 @@ STATE3:
 	; D3
 	SETB P1.1
 	CLR  P1.2
-	MOV R4, #30
+	MOV R4, #31
 	ACALL DELAY
 	RET
 DELAY:
